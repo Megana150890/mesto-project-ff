@@ -7,17 +7,25 @@ const cardTmp = document.querySelector("#card-template").content;
 const placesList = document.querySelector(".places__list");
 
 // @todo: Функция создания карточки
-function createCard(card, deleteCard, openPopupImg) {
+function createCard(dataCard, deleteCard, openPopupImg) {
   const cardElement = cardTmp.querySelector('.card').cloneNode(true);
-  //    const cardImage = cardElement.querySelector('.card__image');
-  //    const cardTitle = cardElement.querySelector('.card__title');
+  const cardImage = cardElement.querySelector('.card__image');
+  const cardTitle = cardElement.querySelector('.card__title')
+  cardImage.src = dataCard.link;
+  cardImage.alt = dataCard.name;
+  cardTitle.textContent = dataCard.name;
+
   const deleteButton = cardElement.querySelector(".card__delete-button");
-  cardElement.querySelector('.card__image').src = card.link;
-  cardElement.querySelector('.card__image').alt = card.name;
-  cardElement.querySelector('.card__title').textContent = card.name;
+
   deleteButton.addEventListener('click', deleteCard);
 
 
+  cardElement.addEventListener('click', () => {
+    openPopupImg(dataCard.link, dataCard.name);
+  });
+
+  
+  
   return cardElement;
 }
 
@@ -27,6 +35,8 @@ function deleteCard(evt) {
   const listItem = evt.target.closest(".card");
   listItem.remove();
 }
+
+
 
 // @todo: Вывести карточки на страницу
 
@@ -44,6 +54,7 @@ const closeNewCArdPopupButton = newCardPopup.querySelector ('.popup__close');
 const imgPopup = document.querySelector ('.popup_type_image')
 const openImage = imgPopup.querySelector('.popup__image');
 const openImageCaption = imgPopup.querySelector('.popup__caption')
+const closeImgPopup = imgPopup.querySelector ('.popup__close')
 
 //окртыие popup
 function openPopup(popupElement) {
@@ -64,12 +75,13 @@ profileAddButton.addEventListener('click', function() {
 // открытие картинки
 
 
-function openPopupImg(item) {
-  openImage.src = item.link;
-  openImage.alt = item.name;
-  openImageCaption.textContent = item.name;
+function openPopupImg (link, name) {
   openPopup(imgPopup);
+  openImage.src = link;
+  openImage.alt = name; 
+  openImageCaption.textContent = name;
 }
+
 
 // //закрытие popup
 function closePopup(popupElement) {
@@ -88,6 +100,10 @@ closeNewCArdPopupButton.addEventListener('click', function() {
 
 });
 
+closeImgPopup.addEventListener('click', function() {
+  closePopup(imgPopup)
+});
+
 // закртиые кнопкой Esc
 function popupCloseEsc (evt) {
   if (evt.key === 'Escape') {
@@ -103,6 +119,9 @@ function popupCloseOverlay (evt) {
     closePopup(openedPopup);
 }
 }
+
+
+
 
 
 
