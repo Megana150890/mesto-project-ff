@@ -56,10 +56,17 @@ const openImage = imgPopup.querySelector('.popup__image');
 const openImageCaption = imgPopup.querySelector('.popup__caption')
 const closeImgPopup = imgPopup.querySelector ('.popup__close')
 
+const profileFormElement = document.forms["edit-profile"];
+const nameInput = profileFormElement.elements.name;
+const jobInput = profileFormElement.elements.description;
+const profileName = document.querySelector('.profile__title');
+const profileJob = document.querySelector('.profile__description');
+
+
 //окртыие popup
 function openPopup(popupElement) {
   popupElement.classList.add('popup_is-opened');
-  document.addEventListener('keyup', popupCloseEsc)
+  document.addEventListener('keydown', popupCloseEsc)
   document.addEventListener('mouseup', popupCloseOverlay)
 }
 
@@ -76,17 +83,17 @@ profileAddButton.addEventListener('click', function() {
 
 
 function openPopupImg (link, name) {
-  openPopup(imgPopup);
   openImage.src = link;
   openImage.alt = name; 
   openImageCaption.textContent = name;
+  openPopup(imgPopup);
 }
 
 
 // //закрытие popup
 function closePopup(popupElement) {
   popupElement.classList.remove('popup_is-opened');
-  document.removeEventListener('keyup', popupCloseEsc)
+  document.removeEventListener('keydown', popupCloseEsc)
   document.removeEventListener('mouseup', popupCloseOverlay)
 }
 
@@ -104,7 +111,7 @@ closeImgPopup.addEventListener('click', function() {
   closePopup(imgPopup)
 });
 
-// закртиые кнопкой Esc
+// закрттие кнопкой Esc
 function popupCloseEsc (evt) {
   if (evt.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_is-opened');
@@ -121,34 +128,23 @@ function popupCloseOverlay (evt) {
 }
 
 
+// функция сохранения данных
 
+editPopupButton.addEventListener ('click', function () {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
+     openPopup(profilePopup)
+});
 
-
-
-
-
-
-// Редактирование имени и информации о себе
-// Находим форму в DOM
-const formElement = document.querySelector('.popup__form')
-// Находим поля формы в DOM
-const nameInput = formElement.elements.name;
-const jobInput = formElement.querySelector('.popup__input_type_description')
-
-// Обработчик «отправки» формы, хотя пока
-// она никуда отправляться не будет
+// функция редактирования данных
 function handleFormSubmit(evt) {
-    evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-                                                // Так мы можем определить свою логику отправки.
-                                                // О том, как это делать, расскажем позже.
-
-    // Получите значение полей jobInput и nameInput из свойства value
-
-    // Выберите элементы, куда должны быть вставлены значения полей
-
-    // Вставьте новые значения с помощью textContent
-}
+      evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+      profileName.textContent = nameInput.value;
+      profileJob.textContent = jobInput.value;
+      closePopup(profilePopup)
+};
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', handleFormSubmit); 
+profileFormElement.addEventListener('submit', handleFormSubmit); 
+
