@@ -7,7 +7,7 @@ const cardTmp = document.querySelector('#card-template').content;
 const placesList = document.querySelector('.places__list');
 
 // @todo: Функция создания карточки
-function createCard(dataCard, deleteCard, openPopupImg) {
+function createCard(dataCard, deleteCard, addLike, openPopupImg) {
   const cardElement = cardTmp.querySelector('.card').cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
   const cardTitle = cardElement.querySelector('.card__title')
@@ -24,7 +24,11 @@ function createCard(dataCard, deleteCard, openPopupImg) {
     openPopupImg(dataCard.link, dataCard.name);
   });
 
-  
+  // функция добавления лайка
+const likeButton = cardElement.querySelector('.card__like-button');
+likeButton.addEventListener('click', addLike)
+
+
   
   return cardElement;
 }
@@ -41,7 +45,7 @@ function deleteCard(evt) {
 // @todo: Вывести карточки на страницу
 
 initialCards.forEach((item) => {
-  placesList.append(createCard(item, deleteCard, openPopupImg));
+  placesList.append(createCard(item, deleteCard, addLike,  openPopupImg));
 });
 
 
@@ -84,13 +88,7 @@ profileAddButton.addEventListener('click', function() {
   openPopup(newCardPopup)
 });
 
-// открытие картинки
-function openPopupImg (link, name) {
-  openImage.src = link;
-  openImage.alt = name; 
-  openImageCaption.textContent = name;
-  openPopup(imgPopup);
-}
+
 
 
 // //закрытие popup
@@ -174,9 +172,22 @@ const newCardAdd = createCard(createNewCard, deleteCard );
 placesList.prepend(newCardAdd);
 closePopup(newCardPopup);
 element.target.reset();
-closePopup(newCardPopup);
-// addNewCardForm.reset();
+
 }
 
 addNewCardForm.addEventListener('submit', addNewPlace);
 
+
+
+function addLike (evt) {
+  evt.target.classList.toggle('card__like-button_is-active')
+  
+}
+
+// открытие картинки
+function openPopupImg (link, name) {
+  openImage.src = link;
+  openImage.alt = name; 
+  openImageCaption.textContent = name;
+  openPopup(imgPopup);
+}
