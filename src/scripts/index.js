@@ -20,7 +20,7 @@ function createCard(dataCard, deleteCard, addLike, openPopupImg) {
   deleteButton.addEventListener('click', deleteCard);
 
 
-  cardElement.addEventListener('click', () => {
+  cardImage.addEventListener('click', () => {
     openPopupImg(dataCard.link, dataCard.name);
   });
 
@@ -174,7 +174,6 @@ const newCardAdd = createCard(createNewCard, deleteCard );
 
 placesList.prepend(newCardAdd);
 closePopup(newCardPopup);
-// element.target.reset();
 element.target.reset();
 }
 
