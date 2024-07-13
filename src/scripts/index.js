@@ -40,6 +40,9 @@ function deleteCard(evt) {
   listItem.remove();
 }
 
+function addLike (evt) {
+  evt.target.classList.toggle('card__like-button_is-active')
+}
 
 
 // @todo: Вывести карточки на страницу
@@ -48,7 +51,7 @@ initialCards.forEach((item) => {
   placesList.append(createCard(item, deleteCard, addLike,  openPopupImg));
 });
 
-
+const popups = document.querySelectorAll(".popup");
 const editPopupButton = document.querySelector ('.profile__edit-button');
 const profilePopup = document.querySelector ('.popup_type_edit');
 const closePopupButton = profilePopup.querySelector ('.popup__close');
@@ -171,18 +174,14 @@ const newCardAdd = createCard(createNewCard, deleteCard );
 
 placesList.prepend(newCardAdd);
 closePopup(newCardPopup);
+// element.target.reset();
 element.target.reset();
-
 }
 
 addNewCardForm.addEventListener('submit', addNewPlace);
 
 
 
-function addLike (evt) {
-  evt.target.classList.toggle('card__like-button_is-active')
-  
-}
 
 // открытие картинки
 function openPopupImg (link, name) {
@@ -191,3 +190,7 @@ function openPopupImg (link, name) {
   openImageCaption.textContent = name;
   openPopup(imgPopup);
 }
+
+popups.forEach(function (element) {
+  element.classList.add("popup_is-animated");
+});
