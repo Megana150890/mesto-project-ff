@@ -1,49 +1,14 @@
 import "../pages/index.css";
 import {initialCards} from './cards.js'
-// @todo: Темплейт карточки
-const cardTmp = document.querySelector('#card-template').content;
+import {createCard} from './cards.js'
+import {deleteCard} from './cards.js'
+import {addLike} from './cards.js'
+import {openPopup} from '../components/modal.js'
+import {closePopup} from '../components/modal.js'
+
 
 // @todo: DOM узлы
 const placesList = document.querySelector('.places__list');
-
-// @todo: Функция создания карточки
-function createCard(dataCard, deleteCard, addLike, openPopupImg) {
-  const cardElement = cardTmp.querySelector('.card').cloneNode(true);
-  const cardImage = cardElement.querySelector('.card__image');
-  const cardTitle = cardElement.querySelector('.card__title')
-  cardImage.src = dataCard.link;
-  cardImage.alt = dataCard.name;
-  cardTitle.textContent = dataCard.name;
-
-  const deleteButton = cardElement.querySelector('.card__delete-button');
-
-  deleteButton.addEventListener('click', deleteCard);
-
-
-  cardImage.addEventListener('click', () => {
-    openPopupImg(dataCard.link, dataCard.name);
-  });
-
-  // функция добавления лайка
-const likeButton = cardElement.querySelector('.card__like-button');
-likeButton.addEventListener('click', addLike)
-
-
-  
-  return cardElement;
-}
-
-// @todo: Функция удаления карточки
-
-function deleteCard(evt) {
-  const listItem = evt.target.closest('.card');
-  listItem.remove();
-}
-
-function addLike (evt) {
-  evt.target.classList.toggle('card__like-button_is-active')
-}
-
 
 // @todo: Вывести карточки на страницу
 
@@ -71,17 +36,6 @@ const profileName = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__description');
 
 
-
-
-
-
-//окртыие popup
-function openPopup(popupElement) {
-  popupElement.classList.add('popup_is-opened');
-  document.addEventListener('keydown', popupCloseEsc)
-  document.addEventListener('mouseup', popupCloseOverlay)
-}
-
 editPopupButton.addEventListener('click', function () {
   openPopup(profilePopup);
 }); 
@@ -91,15 +45,6 @@ profileAddButton.addEventListener('click', function() {
   openPopup(newCardPopup)
 });
 
-
-
-
-// //закрытие popup
-function closePopup(popupElement) {
-  popupElement.classList.remove('popup_is-opened');
-  document.removeEventListener('keydown', popupCloseEsc)
-  document.removeEventListener('mouseup', popupCloseOverlay)
-}
 
 closePopupButton.addEventListener('click', function() {
   closePopup(profilePopup)
@@ -115,22 +60,17 @@ closeImgPopup.addEventListener('click', function() {
   closePopup(imgPopup)
 });
 
-// закрттие кнопкой Esc
-function popupCloseEsc (evt) {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_is-opened');
-closePopup(openedPopup)
+
+
+
+
+  // открытие  картинки  попап
+  export function openPopupImg (link, name) {
+    openImage.src = link;
+    openImage.alt = name; 
+    openImageCaption.textContent = name;
+    openPopup(imgPopup);
   }
-}
-
-// закрытие на оверлей
-function popupCloseOverlay (evt) {
-  if (evt.target.classList.contains('popup_is-opened')) {
-    const openedPopup = document.querySelector('.popup_is-opened');
-    closePopup(openedPopup);
-}
-}
-
 
 // функция сохранения данных
 
@@ -157,9 +97,6 @@ profileFormElement.addEventListener('submit', handleFormSubmit);
 const addNewCardForm = document.forms['new-place'];
 const namePlaceInput = addNewCardForm.elements['place-name'];
 const linkPlaceInput = addNewCardForm.elements.link;
-// const placeName = document.querySelector('.popup__input_type_card-name');
-// const linkPlace = document.querySelector('.popup__input_type_url');
-
 
 
 // функция добавления карточки
@@ -179,16 +116,6 @@ element.target.reset();
 
 addNewCardForm.addEventListener('submit', addNewPlace);
 
-
-
-
-// открытие картинки
-function openPopupImg (link, name) {
-  openImage.src = link;
-  openImage.alt = name; 
-  openImageCaption.textContent = name;
-  openPopup(imgPopup);
-}
 
 popups.forEach(function (element) {
   element.classList.add("popup_is-animated");
