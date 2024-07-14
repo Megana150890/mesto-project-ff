@@ -1,10 +1,7 @@
 import "../pages/index.css";
-import {initialCards} from './cards.js'
-import {createCard} from './cards.js'
-import {deleteCard} from './cards.js'
-import {addLike} from './cards.js'
-import {openPopup} from '../components/modal.js'
-import {closePopup} from '../components/modal.js'
+import {initialCards, createCard, deleteCard, addLike} from './cards.js'
+import {openPopup, closePopup} from '../components/modal.js'
+
 
 
 // @todo: DOM узлы
@@ -40,6 +37,14 @@ editPopupButton.addEventListener('click', function () {
   openPopup(profilePopup);
 }); 
  
+// функция сохранения данных
+
+editPopupButton.addEventListener ('click', function () {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
+     openPopup(profilePopup)
+});
+
 
 profileAddButton.addEventListener('click', function() {
   openPopup(newCardPopup)
@@ -72,16 +77,10 @@ closeImgPopup.addEventListener('click', function() {
     openPopup(imgPopup);
   }
 
-// функция сохранения данных
 
-editPopupButton.addEventListener ('click', function () {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
-     openPopup(profilePopup)
-});
 
 // функция редактирования данных
-function handleFormSubmit(evt) {
+function editFormSubmit(evt) {
       evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
       profileName.textContent = nameInput.value;
       profileJob.textContent = jobInput.value;
@@ -90,7 +89,7 @@ function handleFormSubmit(evt) {
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-profileFormElement.addEventListener('submit', handleFormSubmit); 
+profileFormElement.addEventListener('submit', editFormSubmit); 
 
 
 //для добавления карточки

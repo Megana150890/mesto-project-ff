@@ -1,0 +1,1 @@
+import {arkhyz, chelyayuinskRegion, ivanovo, kamchatka, kholmogorskyRayon, baikal} from './cards.js'
