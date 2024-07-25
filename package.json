@@ -4,6 +4,8 @@
   "description": "https://github.com/Megana150890/mesto-project-ff",
   "main": "index.js",
   "scripts": {
+    "predeploy": "npm run build",
+   "deploy": "gh-pages -d dist",
     "build": "rd /s /q dist && webpack --mode production",
     "dev": "webpack serve"
   },
@@ -17,6 +19,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^7.1.2",
     "cssnano": "^7.0.4",
+    "gh-pages": "^6.1.1",
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.9.0",
     "postcss-loader": "^8.1.1",
