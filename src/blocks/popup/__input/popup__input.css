@@ -20,3 +20,13 @@
     line-height: 15px;
   }
 }
+
+.name-input-error {
+  border-bottom-color: red;
+  display: none;
+}
+
+.description-input-error {
+  border-bottom-color: red;
+  display: none;
+}

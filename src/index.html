@@ -51,15 +51,23 @@
               name="name"
               class="popup__input popup__input_type_name"
               placeholder="Имя"
+              minlength="2" maxlength="40"
+              pattern = "^[a-zA-Zа-яА-я\-\s]+$"
+              data-error-message="Разрешены только латинские и кириллические буквы, знаки дефиса и пробелы"
               required
             />
+            <span class="name-input-error form__input-error"></span>
             <input
               type="text"
               name="description"
               class="popup__input popup__input_type_description"
               placeholder="Занятие"
+              minlength="2" maxlength="200"
+              pattern = "^[a-zA-Zа-яА-я\-\s]+$"
+              data-error-message="Разрешены только латинские и кириллические буквы, знаки дефиса и пробелы"
               required
             />
+            <span class="description-input-error form__input-error"></span>
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
