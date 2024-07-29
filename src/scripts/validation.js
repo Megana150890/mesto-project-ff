@@ -1,17 +1,18 @@
 
-enableValidation({
+const  validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button',
     inactiveButtonClass: 'popup__button_disabled',
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_visible'
-  }); 
+}
+  
 
 //валидация формы "редактрировать профиль"
 
 const showInputError = (formElement, inputElement, errorMessage) => {
-    const errorElement = formElement.querySelector('.${inputElement.id}-error');
+    const errorElement = formElement.querySelector(`.${inputElement.id}-error`)
    inputElement.classList.add('popup__input_type_error');
    errorElement.textContent = errorMessage;
    errorElement.classList.add('popup__error_visible');

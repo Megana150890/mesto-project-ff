@@ -25,10 +25,13 @@
   border-bottom-color: red;
 }
 
-.popup__error_visible {
-
+.popup__form__input-error {
   color: #FF0000;
   font-size: 12px;
-  font-weight: 400;
-  line-height: 14.52px;
+  line-height:14.52px;
+  visibility: hidden;
+}
+
+.popup__error_visible {
+  visibility: visible;
 }
