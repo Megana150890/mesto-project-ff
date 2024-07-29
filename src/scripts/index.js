@@ -100,3 +100,5 @@ addNewCardForm.addEventListener("submit", addNewPlace);
 popups.forEach(function (element) {
   element.classList.add("popup_is-animated");
 });
+
+
