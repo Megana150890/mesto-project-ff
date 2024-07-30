@@ -29,14 +29,17 @@
   color: #FF0000;
   font-size: 12px;
   line-height:14.52px;
-  display: none;
+  display: block;
 }
 
-.popup__input-error_active {
+/* .popup__input-error_active {
   color: #FF0000;
   font-size: 12px;
   line-height:14.52px;
   display: block;
-}
+} */
 
+.popup__error_visible {
+  opacity: 1;
+}
 

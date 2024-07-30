@@ -15,13 +15,13 @@ const showInputError = (formElement, inputElement, errorMessage) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`)
    inputElement.classList.add('popup__input_type_error');
    errorElement.textContent = errorMessage;
-   errorElement.classList.add('popup__input-error_active');
+   errorElement.classList.add('popup__error_visible');
   };
 
   const hideInputError = (formElement, inputElement) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove('popup__input_type_error');
-    errorElement.classList.remove('popup__input-error_active');
+    errorElement.classList.remove('popup__error_visible');
     errorElement.textContent = '';
   };
 
@@ -60,7 +60,7 @@ const setEventListeners = (formElement) => {
 const enableValidation = (validationConfig) => {
   // Найдём все формы с указанным классом в DOM,
   // сделаем из них массив методом Array.from
-  const formList = Array.from(document.querySelectorAll('.form'));
+  const formList = Array.from(document.querySelectorAll('.popup__form'));
 
   // Переберём полученную коллекцию
   formList.forEach((formElement) => {
@@ -93,7 +93,7 @@ const enableValidation = (validationConfig) => {
 
   
   // Вызовем функцию
-  // enableValidation(); 
+  enableValidation(validationConfig); 
 
 //   clearValidation(profileForm, validationConfig); 
   
