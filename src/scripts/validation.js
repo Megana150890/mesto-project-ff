@@ -57,7 +57,7 @@ const setEventListeners = (formElement) => {
   });
 }; 
 
-const enableValidation = (validationConfig) => {
+export const enableValidation = () => {
   // Найдём все формы с указанным классом в DOM,
   // сделаем из них массив методом Array.from
   const formList = Array.from(document.querySelectorAll('.popup__form'));
@@ -69,7 +69,7 @@ const enableValidation = (validationConfig) => {
     formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
-    setEventListeners(formElement, validationConfig);
+    setEventListeners(formElement);
   });
 };
 
@@ -91,9 +91,7 @@ const enableValidation = (validationConfig) => {
     }
   };
 
-  
-  // Вызовем функцию
-  enableValidation(validationConfig); 
 
-//   clearValidation(profileForm, validationConfig); 
+
+  // clearValidation(formElement, validationConfig); 
   

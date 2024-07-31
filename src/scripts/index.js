@@ -2,7 +2,7 @@ import "../pages/index.css";
 import { initialCards } from "../components/initialCards.js";
 import { createCard, deleteCard, addLike } from "./card.js";
 import { openPopup, closePopup } from "../components/modal.js";
-
+import {enableValidation} from "./validation.js"
 // @todo: DOM узлы
 const placesList = document.querySelector(".places__list");
 
@@ -101,4 +101,4 @@ popups.forEach(function (element) {
   element.classList.add("popup_is-animated");
 });
 
-
+enableValidation(); 
