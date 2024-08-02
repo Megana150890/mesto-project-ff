@@ -40,3 +40,20 @@ export const  getDataCard = () => {
   .then(checkRequest);
 };
 
+
+Promise.all([getDataProfile(),getDataCard() ])
+.then((results) => {
+  console.log(results); 
+}); 
+
+
+//Редактирование профиля 
+
+export const editDataProfile = (data) => {
+  return fetch(`${config.baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: config.headers,
+    body: JSON.stringify(data),
+  }).then(checkRequest);
+};
+
