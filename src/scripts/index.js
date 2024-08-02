@@ -3,7 +3,7 @@ import { initialCards } from "../components/initialCards.js";
 import { createCard, deleteCard, addLike } from "./card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import {enableValidation} from "./validation.js"
-// @todo: DOM узлы
+import {getDataProfile} from "./api.js"
 const placesList = document.querySelector(".places__list");
 
 // @todo: Вывести карточки на страницу
@@ -102,3 +102,4 @@ popups.forEach(function (element) {
 });
 
 enableValidation(); 
+getDataProfile();
