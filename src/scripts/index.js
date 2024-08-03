@@ -3,14 +3,17 @@ import { initialCards } from "../components/initialCards.js";
 import { createCard, deleteCard, addLike } from "./card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import {enableValidation} from "./validation.js"
-import {getDataProfile} from "./api.js"
+import {editDataProfile, getDataProfile, getInitialCards } from "./api.js"
 const placesList = document.querySelector(".places__list");
 
 // @todo: Вывести карточки на страницу
 
-initialCards.forEach((item) => {
-  placesList.append(createCard(item, deleteCard, addLike, openPopupImg));
-});
+// initialCards.forEach((item) => {
+//   placesList.append(createCard(item, deleteCard, addLike, openPopupImg));
+// });
+
+
+
 
 const popups = document.querySelectorAll(".popup");
 const editPopupButton = document.querySelector(".profile__edit-button");
@@ -25,11 +28,11 @@ const openImageCaption = imgPopup.querySelector(".popup__caption");
 const closeImgPopup = imgPopup.querySelector(".popup__close");
 
 // для редактиварония формы
-const profileFormElement = document.forms["edit-profile"];
+const profileFormElement = document.forms["edit-profile"]; 
 const nameInput = profileFormElement.elements.name;
 const jobInput = profileFormElement.elements.description;
-const profileName = document.querySelector(".profile__title");
-const profileJob = document.querySelector(".profile__description");
+const profileName = document.querySelector(".profile__title"); // DOM узел место имени
+const profileJob = document.querySelector(".profile__description"); // DOM узел место работы
 
 // функция сохранения данных
 
@@ -103,3 +106,16 @@ popups.forEach(function (element) {
 
 enableValidation(); 
 getDataProfile();
+
+
+
+Promise.all([getDataProfile(),getInitialCards() ])
+  .then(([info, initialCards]) => {  
+    initialCards.forEach((item) => { 
+      placesList.append(createCard(item, deleteCard, addLike, openPopupImg))
+    });
+    profileName.textContent = info.name; //выводит имя и информацию
+    profileJob.textContent = info.about; 
+
+  })
+

@@ -33,27 +33,26 @@ export const getDataProfile = () => {
 
 
 //Загрузка карточек с сервера 
-export const  getDataCard = () => {
+export const  getInitialCards = () => {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers,
   })
-  .then(checkRequest);
+  .then(checkRequest)
+  .then((res) => {
+    return res
+  })
 };
-
-
-Promise.all([getDataProfile(),getDataCard() ])
-.then((results) => {
-  console.log(results); 
-}); 
 
 
 //Редактирование профиля 
 
-export const editDataProfile = (data) => {
+export const editDataProfile = (nameInput, jobInput) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: config.headers,
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      name: nameInput.value,
+      about: jobInput.value,
+    }),
   }).then(checkRequest);
-};
-
+}
