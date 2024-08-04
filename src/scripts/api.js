@@ -48,18 +48,6 @@ export const  getInitialCards = () => {
 
 //Редактирование профиля 
 
-// export const editDataProfile = (updateName, updateAbout) => {
-//   return fetch(`${config.baseUrl}/users/me`, {
-//     method: "PATCH",
-//     headers: config.headers,
-//     body: JSON.stringify({
-//       name: updateName,
-//       about: updateAbout,
-//     }),
-//   }).then(checkRequest);
-// }
-
-
 export function editProfileInfo({name, about}) {
   return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",

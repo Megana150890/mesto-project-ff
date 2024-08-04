@@ -88,7 +88,9 @@ export function openPopupImg(link, name) {
 
 function editFormSubmit(evt) {
     evt.preventDefault();
+
   const popupElement = document.querySelector(".popup_is-opened");
+
   renderLoading(true, popupElement);
 
   editProfileInfo({
@@ -96,24 +98,23 @@ function editFormSubmit(evt) {
     about: jobInput.value,
   })
     .then(() => {
-      profileTitle.textContent = nameInput.value;
-      profileDescription.textContent = jobInput.value;
-      closeModal(buttonOpenPopupProfile);
+      profileName.textContent = nameInput.value;
+      profileJob.textContent = jobInput.value;
+      closePopup(profilePopup);
     })
     .catch((error) => {
       console.error("Произошла ошибка:", error);
     })
-    .finally(() =>{
+    .finally(() => {
       renderLoading(false, popupElement);
     })
   }
 
-
-
-
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 profileFormElement.addEventListener("submit", editFormSubmit);
+
+
 
 //для добавления карточки
 const addNewCardForm = document.forms["new-place"];
