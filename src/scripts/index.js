@@ -3,7 +3,7 @@ import { initialCards } from "../components/initialCards.js";
 import { createCard, deleteCard, addLike } from "./card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import { enableValidation } from "./validation.js";
-import { editDataProfile, getDataProfile, getInitialCards } from "./api.js";
+import { editProfileInfo, getDataProfile, getInitialCards } from "./api.js";
 const placesList = document.querySelector(".places__list");
 
 // @todo: Вывести карточки на страницу
@@ -64,16 +64,17 @@ export function openPopupImg(link, name) {
 }
 
 // функция редактирования данных
-function editFormSubmit(evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  // console.log(nameInput.value);
-  // console.log(jobInput.value);
-  closePopup(profilePopup);
-}
 
-// editDataProfile(nameInput, jobInput)
+// function editFormSubmit(evt) {
+//   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+//   profileName.textContent = nameInput.value;
+//   profileJob.textContent = jobInput.value;
+//   // console.log(nameInput.value);
+//   // console.log(jobInput.value);
+//   closePopup(profilePopup);
+// }
+
+// editDataProfile(nameInput.value, jobInput.value)
 // .then((result) => {
 //   getDataProfile(result)
 //   .then((data) => {
@@ -85,27 +86,28 @@ function editFormSubmit(evt) {
 
 
 
-  const profileInfo = {
-    name: profileName.textContent,
-    about: profileJob.textContent,
-  };
-editDataProfile(profileInfo)
-.then((data) => {
-  renderProfile(data)
-  closePopup(profilePopup);
-})
-.catch((err) => {
-  console.log(err)
-})
+function editFormSubmit(evt) {
+    evt.preventDefault();
+  const popupElement = document.querySelector(".popup_is-opened");
+  renderLoading(true, popupElement);
 
-
-
-
-
-  function renderProfile (data) {
-    profileName.textContent = data.name;
-    profileJob.textContent = data.about;
+  editProfileInfo({
+    name: nameInput.value,
+    about: jobInput.value,
+  })
+    .then(() => {
+      profileTitle.textContent = nameInput.value;
+      profileDescription.textContent = jobInput.value;
+      closeModal(buttonOpenPopupProfile);
+    })
+    .catch((error) => {
+      console.error("Произошла ошибка:", error);
+    })
+    .finally(() =>{
+      renderLoading(false, popupElement);
+    })
   }
+
 
 
 
@@ -142,6 +144,17 @@ popups.forEach(function (element) {
 enableValidation();
 getDataProfile();
 
+
+function renderLoading(isLoading, popupElement) {
+  const activeButton = popupElement.querySelector(".popup__button");
+  if (isLoading) {
+    activeButton.textContent = "Сохранение...";
+  } else {
+    activeButton.textContent = "Сохранить";
+  }
+}
+
+
 Promise.all([getDataProfile(), getInitialCards()]).then(
   ([info, initialCards]) => {
     initialCards.forEach((item) => {
@@ -149,6 +162,8 @@ Promise.all([getDataProfile(), getInitialCards()]).then(
     });
     profileName.textContent = info.name; 
     profileJob.textContent = info.about;
-  }
-);
-
+  })
+  .catch((err) => {             //попадаем сюда если один из промисов завершится ошибкой 
+    console.log(err);
+    })
+  

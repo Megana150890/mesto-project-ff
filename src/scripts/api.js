@@ -20,6 +20,8 @@ export const checkRequest = (res) => {
   if (res.ok) {
     return res.json();
   }
+  return Promise.reject(`Ошибка: ${res.status}`); // если ошибка, отклоняем промис
+
 };
 
 //Загрузка информации о пользователе с сервера
@@ -52,22 +54,20 @@ export const  getInitialCards = () => {
 //     headers: config.headers,
 //     body: JSON.stringify({
 //       name: updateName,
-//       about: updateAbout
+//       about: updateAbout,
 //     }),
 //   }).then(checkRequest);
 // }
 
 
-export const editDataProfile = (info) => {
+export function editProfileInfo({name, about}) {
   return fetch(`${config.baseUrl}/users/me`, {
+    method: "PATCH",
     headers: config.headers,
-    method: 'PATCH',
-      body: JSON.stringify({
-        name: info.name,
-        about: info.about,
-      }),
+    body: JSON.stringify({
+      name: name,
+      about: about
+    }),
   })
-  .then((res) => {
-    return checkRequest(res)
-  })
+    .then(checkRequest)
 }
