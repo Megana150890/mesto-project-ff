@@ -40,19 +40,34 @@ export const  getInitialCards = () => {
   .then(checkRequest)
   .then((res) => {
     return res
-  })
+  }) 
 };
 
 
 //Редактирование профиля 
 
-export const editDataProfile = (nameInput, jobInput) => {
+// export const editDataProfile = (updateName, updateAbout) => {
+//   return fetch(`${config.baseUrl}/users/me`, {
+//     method: "PATCH",
+//     headers: config.headers,
+//     body: JSON.stringify({
+//       name: updateName,
+//       about: updateAbout
+//     }),
+//   }).then(checkRequest);
+// }
+
+
+export const editDataProfile = (info) => {
   return fetch(`${config.baseUrl}/users/me`, {
-    method: "PATCH",
     headers: config.headers,
-    body: JSON.stringify({
-      name: nameInput.value,
-      about: jobInput.value,
-    }),
-  }).then(checkRequest);
+    method: 'PATCH',
+      body: JSON.stringify({
+        name: info.name,
+        about: info.about,
+      }),
+  })
+  .then((res) => {
+    return checkRequest(res)
+  })
 }

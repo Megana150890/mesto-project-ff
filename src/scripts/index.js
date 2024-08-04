@@ -2,8 +2,8 @@ import "../pages/index.css";
 import { initialCards } from "../components/initialCards.js";
 import { createCard, deleteCard, addLike } from "./card.js";
 import { openPopup, closePopup } from "../components/modal.js";
-import {enableValidation} from "./validation.js"
-import {editDataProfile, getDataProfile, getInitialCards } from "./api.js"
+import { enableValidation } from "./validation.js";
+import { editDataProfile, getDataProfile, getInitialCards } from "./api.js";
 const placesList = document.querySelector(".places__list");
 
 // @todo: Вывести карточки на страницу
@@ -11,9 +11,6 @@ const placesList = document.querySelector(".places__list");
 // initialCards.forEach((item) => {
 //   placesList.append(createCard(item, deleteCard, addLike, openPopupImg));
 // });
-
-
-
 
 const popups = document.querySelectorAll(".popup");
 const editPopupButton = document.querySelector(".profile__edit-button");
@@ -28,7 +25,7 @@ const openImageCaption = imgPopup.querySelector(".popup__caption");
 const closeImgPopup = imgPopup.querySelector(".popup__close");
 
 // для редактиварония формы
-const profileFormElement = document.forms["edit-profile"]; 
+const profileFormElement = document.forms["edit-profile"];
 const nameInput = profileFormElement.elements.name;
 const jobInput = profileFormElement.elements.description;
 const profileName = document.querySelector(".profile__title"); // DOM узел место имени
@@ -71,8 +68,46 @@ function editFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
+  // console.log(nameInput.value);
+  // console.log(jobInput.value);
   closePopup(profilePopup);
 }
+
+// editDataProfile(nameInput, jobInput)
+// .then((result) => {
+//   getDataProfile(result)
+//   .then((data) => {
+//     profileName.textContent = data.name;
+//     profileJob.textContent = data.about;
+//   });
+//   closePopup(profilePopup);
+// });
+
+
+
+  const profileInfo = {
+    name: profileName.textContent,
+    about: profileJob.textContent,
+  };
+editDataProfile(profileInfo)
+.then((data) => {
+  renderProfile(data)
+  closePopup(profilePopup);
+})
+.catch((err) => {
+  console.log(err)
+})
+
+
+
+
+
+  function renderProfile (data) {
+    profileName.textContent = data.name;
+    profileJob.textContent = data.about;
+  }
+
+
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
@@ -104,18 +139,16 @@ popups.forEach(function (element) {
   element.classList.add("popup_is-animated");
 });
 
-enableValidation(); 
+enableValidation();
 getDataProfile();
 
-
-
-Promise.all([getDataProfile(),getInitialCards() ])
-  .then(([info, initialCards]) => {  
-    initialCards.forEach((item) => { 
-      placesList.append(createCard(item, deleteCard, addLike, openPopupImg))
+Promise.all([getDataProfile(), getInitialCards()]).then(
+  ([info, initialCards]) => {
+    initialCards.forEach((item) => {
+      placesList.append(createCard(item,  deleteCard, addLike, openPopupImg));
     });
-    profileName.textContent = info.name; //выводит имя и информацию
-    profileJob.textContent = info.about; 
-
-  })
+    profileName.textContent = info.name; 
+    profileJob.textContent = info.about;
+  }
+);
 
