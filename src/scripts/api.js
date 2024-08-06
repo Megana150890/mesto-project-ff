@@ -4,6 +4,7 @@ const config = {
     authorization: "894f3e2d-4973-45e4-8e7b-8c8a3d21859b",
     "Content-Type": "application/json",
   },
+  likesPath: 'likes'
 };
 
 //  fetch('https://nomoreparties.co/v1/wff-cohort-19/cards', {
@@ -60,22 +61,8 @@ export function editProfileInfo({name, about}) {
     .then(checkRequest)
 }
 
-
-// Добавление новой карточки
-
-// export function postCard({name, link}) {
-//   return fetch(`${config.baseUrl}/cards`, {
-//     method: "POST",
-//     headers: config.headers,
-//     body: JSON.stringify({
-//       name: name,
-//       link: link
-//     }),
-//   })
-//     .then(checkRequest)
-// }
-
-export function postCard(initialCard) { // Функция - запрос на добавление карточки на сервер
+// Функция  на добавление карточки на сервер
+export function postCard(initialCard) { 
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
@@ -83,6 +70,34 @@ export function postCard(initialCard) { // Функция - запрос на д
       name: initialCard.name,
       link: initialCard.link
     })
+  })
+  .then(checkRequest);
+}
+
+export function deleteCardOnServer(cardId) {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+  .then(checkRequest);
+}
+
+
+export function putLikeCard(cardId, likesLength) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: config.headers,
+    body: JSON.stringify({
+      likes: {likesLength},
+      }),
+  })
+  .then(checkRequest);
+}
+
+export function deleteLikeCard(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
   })
   .then(checkRequest);
 }

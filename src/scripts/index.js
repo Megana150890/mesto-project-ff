@@ -3,7 +3,7 @@ import { initialCards } from "../components/initialCards.js";
 import { createCard, deleteCard, addLike } from "./card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import { enableValidation } from "./validation.js";
-import { editProfileInfo, getDataProfile, getInitialCards, postCard } from "./api.js";
+import { editProfileInfo, getDataProfile, getInitialCards, postCard} from "./api.js";
 const placesList = document.querySelector(".places__list");
 
 // @todo: Вывести карточки на страницу
@@ -19,9 +19,9 @@ const closePopupButton = profilePopup.querySelector(".popup__close");
 const profileAddButton = document.querySelector(".profile__add-button");
 const newCardPopup = document.querySelector(".popup_type_new-card");
 const closeNewCArdPopupButton = newCardPopup.querySelector(".popup__close");
-const imgPopup = document.querySelector(".popup_type_image");
-const openImage = imgPopup.querySelector(".popup__image");
-const openImageCaption = imgPopup.querySelector(".popup__caption");
+const imgPopup = document.querySelector(".popup_type_image"); // попап карточки
+const openImage = document.querySelector(".popup__image");
+const openImageCaption = document.querySelector(".popup__caption");
 const closeImgPopup = imgPopup.querySelector(".popup__close");
 
 // для редактиварония формы
@@ -56,15 +56,26 @@ closeImgPopup.addEventListener("click", function () {
 });
 
 // открытие  картинки  попап
-export function openPopupImg(link, name) {
+ function openPopupImg(link, name) {
+  openPopup(imgPopup);
   openImage.src = link;
   openImage.alt = name;
   openImageCaption.textContent = name;
-  openPopup(imgPopup);
 }
 
-// функция редактирования данных
 
+// function openPopupImg(evt) {
+//   const link = evt.target.src
+//   openImage.src = link
+//   const name = evt.target.closest('.card').querySelector('.card__title').textContent
+//   openImageCaption.textContent = name
+//   openImage.alt = name
+
+//   openPopup(imgPopup)
+// }
+
+
+// функция редактирования данных
 
 function editFormSubmit(evt) {
     evt.preventDefault();
