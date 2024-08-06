@@ -59,3 +59,30 @@ export function editProfileInfo({name, about}) {
   })
     .then(checkRequest)
 }
+
+
+// Добавление новой карточки
+
+// export function postCard({name, link}) {
+//   return fetch(`${config.baseUrl}/cards`, {
+//     method: "POST",
+//     headers: config.headers,
+//     body: JSON.stringify({
+//       name: name,
+//       link: link
+//     }),
+//   })
+//     .then(checkRequest)
+// }
+
+export function postCard(initialCard) { // Функция - запрос на добавление карточки на сервер
+  return fetch(`${config.baseUrl}/cards`, {
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify({
+      name: initialCard.name,
+      link: initialCard.link
+    })
+  })
+  .then(checkRequest);
+}

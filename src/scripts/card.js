@@ -9,6 +9,9 @@ export function createCard(dataCard, deleteCard, addLike, openPopupImg) {
   cardImage.src = dataCard.link;
   cardImage.alt = dataCard.name;
   cardTitle.textContent = dataCard.name;
+  const userCardId = dataCard.owner['_id'];
+  const cardId = dataCard._id;
+  
 
   const deleteButton = cardElement.querySelector(".card__delete-button");
 

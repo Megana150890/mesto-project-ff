@@ -3,7 +3,7 @@ import { initialCards } from "../components/initialCards.js";
 import { createCard, deleteCard, addLike } from "./card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import { enableValidation } from "./validation.js";
-import { editProfileInfo, getDataProfile, getInitialCards } from "./api.js";
+import { editProfileInfo, getDataProfile, getInitialCards, postCard } from "./api.js";
 const placesList = document.querySelector(".places__list");
 
 // @todo: Вывести карточки на страницу
@@ -65,26 +65,6 @@ export function openPopupImg(link, name) {
 
 // функция редактирования данных
 
-// function editFormSubmit(evt) {
-//   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-//   profileName.textContent = nameInput.value;
-//   profileJob.textContent = jobInput.value;
-//   // console.log(nameInput.value);
-//   // console.log(jobInput.value);
-//   closePopup(profilePopup);
-// }
-
-// editDataProfile(nameInput.value, jobInput.value)
-// .then((result) => {
-//   getDataProfile(result)
-//   .then((data) => {
-//     profileName.textContent = data.name;
-//     profileJob.textContent = data.about;
-//   });
-//   closePopup(profilePopup);
-// });
-
-
 
 function editFormSubmit(evt) {
     evt.preventDefault();
@@ -118,29 +98,57 @@ profileFormElement.addEventListener("submit", editFormSubmit);
 
 //для добавления карточки
 const addNewCardForm = document.forms["new-place"];
-const namePlaceInput = addNewCardForm.elements["place-name"];
-const linkPlaceInput = addNewCardForm.elements.link;
+const namePlaceInput = addNewCardForm.querySelector('.popup__input_type_card-name'); // поля формы добавления карточки - название
+const linkPlaceInput = addNewCardForm.querySelector('.popup__input_type_url');
 
 // функция добавления карточки
-function addNewPlace(element) {
-  element.preventDefault();
-  const createNewCard = {
-    name: namePlaceInput.value,
-    link: linkPlaceInput.value,
-  };
 
-  const newCardAdd = createCard(createNewCard, deleteCard);
+// function addNewPlace(element) {
+//   element.preventDefault();
 
-  placesList.prepend(newCardAdd);
-  closePopup(newCardPopup);
-  element.target.reset();
-}
+//   const createNewCard = {
+//     name: namePlaceInput.value,
+//     link: linkPlaceInput.value,
+//   };
+
+//   const newCardAdd = createCard(createNewCard, deleteCard);
+
+//   placesList.prepend(newCardAdd);
+//   closePopup(newCardPopup);
+//   element.target.reset();
+// }
 
 addNewCardForm.addEventListener("submit", addNewPlace);
 
 popups.forEach(function (element) {
   element.classList.add("popup_is-animated");
 });
+
+// функция добавления карточки
+
+function addNewPlace(evt) { // функция обработчик отправки формы добавления карточки
+  evt.preventDefault();
+
+  const initialCard = { // Создаю объект с данными для передачи в функцию - postCard
+    name: namePlaceInput.value,
+    link: linkPlaceInput.value
+  }
+
+  postCard(initialCard) // отправляю данные новой карточки на сервер
+  .then((res) => {
+    placesList.prepend(createCard(res, res.owner, openPopupImg, deleteCard, addLike)); // создаю новую карточку 
+    closePopup(newCardPopup);
+    evt.target.reset(); // Сбрасываю значения полей
+  })
+  .catch((error) => {
+        console.error("Произошла ошибка:", error);
+      })
+  // .finally(() => {
+  //   renderLoading(false, evt.submitter);
+  // })
+}
+
+
 
 enableValidation();
 getDataProfile();
@@ -158,13 +166,13 @@ function renderLoading(isLoading, popupElement) {
 
 Promise.all([getDataProfile(), getInitialCards()]).then(
   ([info, initialCards]) => {
-    initialCards.forEach((item) => {
-      placesList.append(createCard(item,  deleteCard, addLike, openPopupImg));
+    initialCards.forEach((dataCard) => { 
+      placesList.append(createCard(dataCard,  openPopupImg, deleteCard, addLike));
     });
     profileName.textContent = info.name; 
     profileJob.textContent = info.about;
   })
-  .catch((err) => {             //попадаем сюда если один из промисов завершится ошибкой 
+  .catch((err) => {           
     console.log(err);
     })
   
