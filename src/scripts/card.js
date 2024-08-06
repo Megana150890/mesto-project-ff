@@ -7,7 +7,7 @@ import { deleteCardOnServer, putLikeCard, deleteLikeCard} from "./api";
 const cardTmp = document.querySelector("#card-template").content;
 
 // @todo: Функция создания карточки
-export function createCard(dataCard, userId, openPopupImg, deleteCard, addLike) {
+export function createCard(dataCard, userId, deleteCard, addLike, openPopupImg) {
   const cardElement = cardTmp.querySelector(".card").cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
@@ -19,6 +19,7 @@ export function createCard(dataCard, userId, openPopupImg, deleteCard, addLike) 
   cardImage.addEventListener("click", () => {
     openPopupImg(dataCard.link, dataCard.name);
   });
+
 
   const deleteButton = cardElement.querySelector(".card__delete-button"); //кнопка удаления
   const userCardId = dataCard.owner['_id'];
@@ -38,6 +39,9 @@ export function createCard(dataCard, userId, openPopupImg, deleteCard, addLike) 
   else {
     deleteButton.hidden = true;
   };
+
+
+
 
   deleteButton.addEventListener("click", deleteCard);
 
@@ -81,7 +85,7 @@ export function createCard(dataCard, userId, openPopupImg, deleteCard, addLike) 
     }
   });
   return cardElement; // возращаем карточку
-};
+}
 
 
   
@@ -96,23 +100,12 @@ export function addLike(likeButton, res, iconLikeCount) {
   const likes = res.likes;
   const likesCount = likes.length;
   iconLikeCount.textContent = likesCount;
-};
+}
 
 
 //  Функция удаления карточки
 
-// export function deleteCard(evt) { // @todo: Функция удаления карточки
-//   const listItem = evt.target.closest(".card");
-//   listItem.remove();
-// };
-
-
-export function deleteCard(cardElement, cardId) {
-  deleteCardOnServer(cardId)
-    .then(() => {
-      cardElement.target.closest('.places__item').remove()
-    })
-    .catch((err) => {
-      console.log('Ошибка, запрос не выполнен', err)
-    })
-}
+export function deleteCard(evt) { // @todo: Функция удаления карточки
+  const listItem = evt.target.closest(".card"); //передаю ближайший родительский элемент и удаляю
+  listItem.remove();
+};
