@@ -9,7 +9,7 @@ inputElement.classList.add(validationConfig.inputErrorClass)
  errorElement.classList.add(validationConfig.errorClass)
 };
 
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, validationConfig) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.remove(validationConfig.inputErrorClass)
   errorElement.classList.remove(validationConfig.errorClass)
@@ -48,7 +48,7 @@ inputList.forEach((inputElement) => {
 });
 }; 
 
-export const enableValidation = () => {
+export const enableValidation = (validationConfig) => {
 // Найдём все формы с указанным классом в DOM,
 // сделаем из них массив методом Array.from
 const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
@@ -58,16 +58,6 @@ formList.forEach((formElement) => { // Обойдём все элементы п
 }); 
 };
 
-// // Переберём полученную коллекцию
-// formList.forEach((formElement) => {
-//   // Для каждой формы вызовем функцию setEventListeners,
-//   // передав ей элемент формы
-//   formElement.addEventListener('submit', (evt) => {
-//     evt.preventDefault();
-//   });
-//   setEventListeners(formElement, validationConfig);
-// });
-// };
 
 
 const hasInvalidInput = (inputList) => {

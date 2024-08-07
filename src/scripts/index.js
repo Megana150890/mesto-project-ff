@@ -68,6 +68,8 @@ closeImgPopup.addEventListener("click", function () {
 
 
 
+
+
 // открытие  картинки  попап
  function openPopupImg(link, name) {
   openPopup(imgPopup);
@@ -81,8 +83,11 @@ const profileAvatar = document.querySelector(".profile__image"); // место �
 const popupAvatar = document.querySelector(".popup_type_avatar"); // попап аватарки
 const avatarForm = document.forms["avatar"]; // форма аватарки
 const avatarInput = avatarForm.querySelector(".popup__input_type_url"); // поле формы аватрки
-// const closeAvatarPopup = popupAvatar.querySelector(".popup__close"); //кнопка закрытия попап аватара
+const closeAvatarPopup = popupAvatar.querySelector(".popup__close"); //кнопка закрытия попап аватара
 
+closeAvatarPopup.addEventListener("click", function() {
+  closePopup(popupAvatar)
+})
 
 function handleAvatarFormSubmit(evt) { // функция обработчик отправки формы аватарки
   evt.preventDefault(); 
@@ -186,6 +191,8 @@ function renderLoading(isLoading, popupElement) {
   }
 }
 
+
+enableValidation(validationConfig);
 
 Promise.all([getDataProfile(), getInitialCards()]).then(
   ([info, initialCards]) => {
