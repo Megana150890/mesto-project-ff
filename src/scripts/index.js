@@ -1,16 +1,12 @@
+
 import "../pages/index.css";
 import { initialCards } from "../components/initialCards.js";
 import { createCard, deleteCard, addLike } from "./card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import { enableValidation } from "./validation.js";
-import { editProfileInfo, getDataProfile, getInitialCards, postCard} from "./api.js";
+import {editProfileInfo, getDataProfile, getInitialCards, postCard, editAvatar} from "./api.js";
 const placesList = document.querySelector(".places__list");
 
-// @todo: Вывести карточки на страницу
-
-// initialCards.forEach((item) => {
-//   placesList.append(createCard(item, deleteCard, addLike, openPopupImg));
-// });
 
 const popups = document.querySelectorAll(".popup");
 const editPopupButton = document.querySelector(".profile__edit-button");
@@ -31,6 +27,7 @@ const jobInput = profileFormElement.elements.description;
 const profileName = document.querySelector(".profile__title"); // DOM узел место имени
 const profileJob = document.querySelector(".profile__description"); // DOM узел место работы
 
+
 // функция сохранения данных
 
 editPopupButton.addEventListener("click", function () {
@@ -38,6 +35,7 @@ editPopupButton.addEventListener("click", function () {
   jobInput.value = profileJob.textContent;
   openPopup(profilePopup);
 });
+
 
 profileAddButton.addEventListener("click", function () {
   openPopup(newCardPopup);
@@ -55,12 +53,43 @@ closeImgPopup.addEventListener("click", function () {
   closePopup(imgPopup);
 });
 
+// closeAvatarPopup.addEventListener("click", function() {
+//   closePopup(popupAvatar)
+// })
+
+
 // открытие  картинки  попап
  function openPopupImg(link, name) {
   openPopup(imgPopup);
   openImage.src = link;
   openImage.alt = name;
   openImageCaption.textContent = name;
+}
+
+// для аватарки
+const profileAvatar = document.querySelector(".profile__image"); // место аватарки
+const popupAvatar = document.querySelector(".popup_type_avatar"); // попап аватарки
+const avatarForm = document.forms["avatar"]; // форма аватарки
+const avatarInput = avatarForm.querySelector(".popup__input_type_url"); // поле формы аватрки
+const closeAvatarPopup = popupAvatar.querySelector(".popup__close"); //кнопка закрытия попап аватара
+
+
+function handleAvatarFormSubmit(evt) { // функция обработчик отправки формы аватарки
+  evt.preventDefault(); 
+
+  const popupElement = document.querySelector(".popup_is-opened");
+
+  editAvatar(avatarInput.value)
+  .then((result) => {
+    profileAvatar.setAttribute("style", `background-image: url('${result.avatar}')`);
+    closePopup(popupAvatar);      
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    renderLoading(false, popupElement);
+  })
 }
 
 
@@ -101,22 +130,7 @@ const addNewCardForm = document.forms["new-place"];
 const namePlaceInput = addNewCardForm.querySelector('.popup__input_type_card-name'); // поля формы добавления карточки - название
 const linkPlaceInput = addNewCardForm.querySelector('.popup__input_type_url');
 
-// функция добавления карточки
 
-// function addNewPlace(element) {
-//   element.preventDefault();
-
-//   const createNewCard = {
-//     name: namePlaceInput.value,
-//     link: linkPlaceInput.value,
-//   };
-
-//   const newCardAdd = createCard(createNewCard, deleteCard);
-
-//   placesList.prepend(newCardAdd);
-//   closePopup(newCardPopup);
-//   element.target.reset();
-// }
 
 addNewCardForm.addEventListener("submit", addNewPlace);
 
@@ -143,9 +157,9 @@ function addNewPlace(evt) { // функция обработчик отправ�
   .catch((error) => {
         console.error("Произошла ошибка:", error);
       })
-  // .finally(() => {
-  //   renderLoading(false, evt.submitter);
-  // })
+  .finally(() => {
+    renderLoading(false, evt.submitter);
+  })
 }
 
 
@@ -171,8 +185,16 @@ Promise.all([getDataProfile(), getInitialCards()]).then(
     });
     profileName.textContent = info.name; 
     profileJob.textContent = info.about;
+    profileAvatar.setAttribute("style", `background-image: url('${info.avatar}')`);
   })
   .catch((err) => {           
     console.log(err);
     })
   
+    profileAvatar.addEventListener('click', function() { // Вешаю обработчик на область аватарки
+      openPopup(popupAvatar);
+    })
+    
+    avatarForm.addEventListener('submit', handleAvatarFormSubmit); // Вешаю обработчик на форму аватар
+    
+    
