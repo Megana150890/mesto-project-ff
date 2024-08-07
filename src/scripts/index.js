@@ -3,9 +3,20 @@ import "../pages/index.css";
 import { initialCards } from "../components/initialCards.js";
 import { createCard, deleteCard, addLike } from "./card.js";
 import { openPopup, closePopup } from "../components/modal.js";
-import { enableValidation } from "./validation.js";
+import { enableValidation, clearValidation } from "./validation.js";
 import {editProfileInfo, getDataProfile, getInitialCards, postCard, editAvatar} from "./api.js";
 const placesList = document.querySelector(".places__list");
+
+
+const  validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
+
 
 
 const popups = document.querySelectorAll(".popup");
@@ -33,11 +44,13 @@ const profileJob = document.querySelector(".profile__description"); // DOM уз�
 editPopupButton.addEventListener("click", function () {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+  clearValidation(profilePopup, validationConfig);
   openPopup(profilePopup);
 });
 
 
 profileAddButton.addEventListener("click", function () {
+  clearValidation(newCardPopup, validationConfig);
   openPopup(newCardPopup);
 });
 
@@ -53,9 +66,6 @@ closeImgPopup.addEventListener("click", function () {
   closePopup(imgPopup);
 });
 
-// closeAvatarPopup.addEventListener("click", function() {
-//   closePopup(popupAvatar)
-// })
 
 
 // открытие  картинки  попап
@@ -71,7 +81,7 @@ const profileAvatar = document.querySelector(".profile__image"); // место �
 const popupAvatar = document.querySelector(".popup_type_avatar"); // попап аватарки
 const avatarForm = document.forms["avatar"]; // форма аватарки
 const avatarInput = avatarForm.querySelector(".popup__input_type_url"); // поле формы аватрки
-const closeAvatarPopup = popupAvatar.querySelector(".popup__close"); //кнопка закрытия попап аватара
+// const closeAvatarPopup = popupAvatar.querySelector(".popup__close"); //кнопка закрытия попап аватара
 
 
 function handleAvatarFormSubmit(evt) { // функция обработчик отправки формы аватарки
@@ -164,8 +174,7 @@ function addNewPlace(evt) { // функция обработчик отправ�
 
 
 
-enableValidation();
-getDataProfile();
+// getDataProfile();
 
 
 function renderLoading(isLoading, popupElement) {
@@ -192,6 +201,7 @@ Promise.all([getDataProfile(), getInitialCards()]).then(
     })
   
     profileAvatar.addEventListener('click', function() { // Вешаю обработчик на область аватарки
+      clearValidation(popupAvatar, validationConfig);
       openPopup(popupAvatar);
     })
     
