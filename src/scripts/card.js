@@ -21,6 +21,8 @@ export function createCard(dataCard, userId, openPopupImg, deleteCard, addLike) 
   });
 
 
+
+
   const deleteButton = cardElement.querySelector(".card__delete-button"); //кнопка удаления
   const userCardId = dataCard.owner['_id'];
   const cardId = dataCard._id;
@@ -40,10 +42,10 @@ export function createCard(dataCard, userId, openPopupImg, deleteCard, addLike) 
     deleteButton.hidden = true;
   };
 
+  // deleteButton.addEventListener("click", deleteCard);
 
 
 
-  deleteButton.addEventListener("click", deleteCard);
 
   const likeButton = cardElement.querySelector(".card__like-button"); //кнопка лайка карточки
   const iconLikeCount = cardElement.querySelector('.current-value-likes');  // span кол-ва лайков карточки
@@ -105,11 +107,8 @@ export function addLike(likeButton, res, iconLikeCount) {
 
 //  Функция удаления карточки
 
-// export function deleteCard(evt) { // @todo: Функция удаления карточки
-//   const listItem = evt.target.closest(".card"); //передаю ближайший родительский элемент и удаляю
-//   listItem.remove();
-// };
+export function deleteCard(evt) { // @todo: Функция удаления карточки
+  const card = evt.closest('.card'); //передаю ближайший родительский элемент и удаляю
+  card.remove();
+};
 
-export function deleteCard(evt) {
-  evt.target.closest(".places__item").remove();
-}

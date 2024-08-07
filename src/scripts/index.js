@@ -64,17 +64,6 @@ closeImgPopup.addEventListener("click", function () {
 }
 
 
-// function openPopupImg(evt) {
-//   const link = evt.target.src
-//   openImage.src = link
-//   const name = evt.target.closest('.card').querySelector('.card__title').textContent
-//   openImageCaption.textContent = name
-//   openImage.alt = name
-
-//   openPopup(imgPopup)
-// }
-
-
 // функция редактирования данных
 
 function editFormSubmit(evt) {
