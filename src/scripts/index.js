@@ -162,6 +162,7 @@ function addNewPlace(evt) { // функция обработчик отправ�
     name: namePlaceInput.value,
     link: linkPlaceInput.value
   }
+  renderLoading(true, popupAvatar);
 
   postCard(initialCard) // отправляю данные новой карточки на сервер
   .then((res) => {
@@ -173,7 +174,7 @@ function addNewPlace(evt) { // функция обработчик отправ�
         console.error("Произошла ошибка:", error);
       })
   .finally(() => {
-    renderLoading(false, evt.submitter);
+    renderLoading(false, popupAvatar);
   })
 }
 

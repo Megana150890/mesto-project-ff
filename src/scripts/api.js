@@ -38,9 +38,6 @@ export const getInitialCards = () => {
     headers: config.headers,
   })
     .then(checkRequest)
-    .then((res) => {
-      return res;
-    });
 };
 
 //Редактирование профиля
@@ -75,13 +72,10 @@ export function deleteCardOnServer(cardId) {
   }).then(checkRequest);
 }
 
-export function putLikeCard(cardId, likesLength) {
+export function putLikeCard(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "PUT",
-    headers: config.headers,
-    body: JSON.stringify({
-      likes: { likesLength },
-    }),
+    headers: config.headers
   }).then(checkRequest);
 }
 

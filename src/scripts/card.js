@@ -55,9 +55,7 @@ export function createCard(dataCard, userId, openPopupImg, deleteCard, addLike) 
 
   if (likes.some(like => like._id === userId)) {
     likeButton.classList.add('card__like-button_is-active');
-  } else {
-    likeButton.classList.remove('card__like-button_is-active');
-  }
+  } 
 
 
   likeButton.addEventListener('click', () => {
@@ -111,4 +109,3 @@ export function deleteCard(evt) { // @todo: Функция удаления ка
   const card = evt.closest('.card'); //передаю ближайший родительский элемент и удаляю
   card.remove();
 };
-
