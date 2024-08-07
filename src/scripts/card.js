@@ -7,7 +7,7 @@ import { deleteCardOnServer, putLikeCard, deleteLikeCard} from "./api";
 const cardTmp = document.querySelector("#card-template").content;
 
 // @todo: Функция создания карточки
-export function createCard(dataCard, userId, deleteCard, addLike, openPopupImg) {
+export function createCard(dataCard, userId, openPopupImg, deleteCard, addLike) {
   const cardElement = cardTmp.querySelector(".card").cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
@@ -105,7 +105,11 @@ export function addLike(likeButton, res, iconLikeCount) {
 
 //  Функция удаления карточки
 
-export function deleteCard(evt) { // @todo: Функция удаления карточки
-  const listItem = evt.target.closest(".card"); //передаю ближайший родительский элемент и удаляю
-  listItem.remove();
-};
+// export function deleteCard(evt) { // @todo: Функция удаления карточки
+//   const listItem = evt.target.closest(".card"); //передаю ближайший родительский элемент и удаляю
+//   listItem.remove();
+// };
+
+export function deleteCard(evt) {
+  evt.target.closest(".places__item").remove();
+}

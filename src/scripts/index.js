@@ -178,7 +178,7 @@ function renderLoading(isLoading, popupElement) {
 Promise.all([getDataProfile(), getInitialCards()]).then(
   ([info, initialCards]) => {
     initialCards.forEach((dataCard) => { 
-      placesList.append(createCard(dataCard,  openPopupImg, deleteCard, addLike));
+      placesList.append(createCard(dataCard, info._id, openPopupImg, deleteCard, addLike, ));
     });
     profileName.textContent = info.name; 
     profileJob.textContent = info.about;
