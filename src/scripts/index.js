@@ -121,9 +121,9 @@ function editFormSubmit(evt) {
     name: nameInput.value,
     about: jobInput.value,
   })
-    .then(() => {
-      profileName.textContent = nameInput.value;
-      profileJob.textContent = jobInput.value;
+    .then((info) => {
+      profileName.textContent = info.name;
+      profileJob.textContent = info.about;
       closePopup(profilePopup);
     })
     .catch((error) => {
@@ -166,7 +166,7 @@ function addNewPlace(evt) { // функция обработчик отправ�
 
   postCard(initialCard) // отправляю данные новой карточки на сервер
   .then((res) => {
-    placesList.prepend(createCard(res, res.owner, openPopupImg, deleteCard, addLike)); // создаю новую карточку 
+    placesList.prepend(createCard(res,  res.owner._id, openPopupImg, deleteCard, addLike)); // создаю новую карточку 
     closePopup(newCardPopup);
     evt.target.reset(); // Сбрасываю значения полей
   })
@@ -185,11 +185,12 @@ function addNewPlace(evt) { // функция обработчик отправ�
 
 function renderLoading(isLoading, popupElement) {
   const activeButton = popupElement.querySelector(".popup__button");
-  if (isLoading) {
-    activeButton.textContent = "Сохранение...";
-  } else {
-    activeButton.textContent = "Сохранить";
-  }
+  activeButton.textContent = isLoading ? "Сохранение..." : "Сохранить";
+//   if (isLoading) {
+//     activeButton.textContent = "Сохранение...";
+//   } else {
+//     activeButton.textContent = "Сохранить";
+//   }
 }
 
 

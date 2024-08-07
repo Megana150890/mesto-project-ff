@@ -21,30 +21,21 @@ export function createCard(dataCard, userId, openPopupImg, deleteCard, addLike) 
   });
 
 
-
-
   const deleteButton = cardElement.querySelector(".card__delete-button"); //кнопка удаления
   const userCardId = dataCard.owner['_id'];
   const cardId = dataCard._id;
 
+
   if(userId === userCardId) {
-    deleteButton.addEventListener('click', () => {
-      deleteCardOnServer(cardId)
-          .then(() => {
-            deleteCard(deleteButton);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-    });
+    deleteButton.addEventListener('click',(cardElement) => {
+          deleteCard(cardElement, cardId) 
+  })
+  } else {
+    deleteButton.remove();
   }
-  else {
-    deleteButton.hidden = true;
-  };
+
 
   // deleteButton.addEventListener("click", deleteCard);
-
-
 
 
   const likeButton = cardElement.querySelector(".card__like-button"); //кнопка лайка карточки
@@ -57,41 +48,22 @@ export function createCard(dataCard, userId, openPopupImg, deleteCard, addLike) 
     likeButton.classList.add('card__like-button_is-active');
   } 
 
-
   likeButton.addEventListener('click', () => {
 
-    if(likeButton.classList.contains('card__like-button_is-active')) {
-    deleteLikeCard(cardId)
-      .then((res) => {
-        likeButton.classList.toggle('card__like-button_is-active')
-        const updatedLikes = res.likes;
-        const likesCount = updatedLikes.length;
-        iconLikeCount.textContent = likesCount;
-        dataCard.likes = updatedLikes;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
-    else {
-      putLikeCard(cardId, likesCount)
-        .then((res) => {
-          addLike(likeButton, res, iconLikeCount);
-          dataCard.likes = res.likes;
-        })
-        .catch((err) => {
-        console.log(err);
-        })
-    }
-  });
-  return cardElement; // возращаем карточку
-}
-
-
+    const likeMethod = likeButton.classList.contains('card__like-button_is-active') ? deleteLikeCard : putLikeCard;
+  likeMethod(cardId) 
+    .then((res) => { 
+      addLike(likeButton, res, iconLikeCount); 
+      dataCard.likes = res.likes; 
+    }) 
+    .catch((err) => { 
+    console.log(err); 
+    })
+  })
   
 
-
-
+  return cardElement; // возращаем карточку
+}
 
   // функция добавления лайка
   
@@ -105,7 +77,12 @@ export function addLike(likeButton, res, iconLikeCount) {
 
 //  Функция удаления карточки
 
-export function deleteCard(evt) { // @todo: Функция удаления карточки
-  const card = evt.closest('.card'); //передаю ближайший родительский элемент и удаляю
-  card.remove();
-};
+  export function deleteCard(card, cardId) {
+    deleteCardOnServer(cardId)
+      .then(() => {
+        card.target.closest('.places__item').remove()
+      })
+      .catch((err) => {
+        console.log('Ошибка, запрос не выполнен', err)
+      })
+  }
